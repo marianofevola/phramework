@@ -1,0 +1,23 @@
+<phpunit
+    bootstrap="phpunit.autoload.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    strict="true"
+    verbose="true"
+>
+  <php>
+    <ini name="display_errors" value="1"/>
+  </php>
+
+  <testsuites>
+    <testsuite name="Phramework Test Suite">
+      <directory suffix=".php">./test/</directory>
+    </testsuite>
+  </testsuites>
+
+</phpunit>
+

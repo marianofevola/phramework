@@ -1,0 +1,44 @@
+{
+  "name": "Phramework",
+  "type": "Framework",
+  "description": "Extended from Phalcon, get your work done easily.",
+  "keywords": [
+    "phalcon",
+    "framework"
+  ],
+  "homepage": "http://www.donotstop.it",
+  "authors": [
+    {
+      "name": "Mariano Fevola",
+      "email":    "fevolamariano@gmail.com",
+      "homepage": "http://www.donotstop.it"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:marianofevola/simply-email.git"
+    },
+    {
+      "type": "git",
+      "url": "git@github.com:marianofevola/assertify.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Phramework\\": "src/",
+      "Modules\\": "modules/src/"
+    }
+  },
+  "require": {
+    "marc-mabe/php-enum": "v1.2.0",
+    "nesbot/carbon": "1.*",
+    "marianofevola/simply-email": "dev-master",
+    "robmorgan/phinx": "^0.12.1",
+    "fzaninotto/faker": "^1.9"
+  },
+  "require-dev": {
+    "marianofevola/assertify": "dev-master",
+    "phalcon/ide-stubs": "^4.0"
+  }
+}
