@@ -96,7 +96,7 @@ class WebDi extends AbstractDi
       ]
     );
 
-    $this->setShared('session', function () use ($config, $sessionAdapter) {
+    $this->setShared('session', function () use ($sessionAdapter) {
       $session = new SessionManager();
       $session->setAdapter($sessionAdapter);
       $session->start();
