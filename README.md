@@ -14,8 +14,8 @@ Spins up a new skeleton component-repository-model application that handles:
     - css
     - js
 
-Every application is installed in the root. Example:
-
+Folder structure example:
+```bash
 app/
 config/
     frontend/
@@ -38,7 +38,7 @@ frontend/
 vendor/
     marianofevola/
         phramework/
-            
+```
 # Configuration
 ## Session handling
 - create config/default.yaml and add:
