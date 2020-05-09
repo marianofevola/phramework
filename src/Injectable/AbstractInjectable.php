@@ -5,13 +5,13 @@ namespace Phramework\Injectable;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
-use Phramework\DI\AbstractDI;
+use Phramework\DI\AbstractDi;
 
 abstract class AbstractInjectable extends Injectable
 {
   /**
    * Type-hinting only
-   * @return AbstractDI
+   * @return AbstractDi
    */
   public function getDI(): DiInterface
   {

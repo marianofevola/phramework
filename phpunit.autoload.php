@@ -2,7 +2,7 @@
 
 use Phalcon\Di;
 use Phalcon\Loader;
-use Phramework\DI\PhrameworkDi;
+use Phramework\DI\WebDi;
 
 ini_set("display_errors", 1);
 error_reporting(E_ALL);
@@ -21,7 +21,7 @@ $loader = new Loader();
 
 $loader->register();
 
-$di = new PhrameworkDi();
+$di = new WebDi();
 
 Di::reset();
 

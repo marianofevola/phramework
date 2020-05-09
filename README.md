@@ -17,28 +17,39 @@ Spins up a new skeleton component-repository-model application that handles:
 Every application is installed in the root. Example:
 
 app/
-- config
-    - frontend
-        - default
-        - login #module specific assests
+config/
+    frontend/
+        defaults.yaml
+        login.yaml #module specific assests
     default.yaml
     dev.yaml
     prod.yaml
-- frontend
-    - public
-    - src
-        - Common
-            - View
-                - Layout
+frontend/
+    public/
+    src/
+        Common/
+            View/
+                Layout/
                     FrontendLayout.html
-        - Modules
-            - Login
-                - Controllers
-                - Views
-- vvendor
-    - marianofevola
-        - phramework
-            - phramework
+        Modules/
+            Login/
+                Controllers/
+                Views/
+vendor/
+    marianofevola/
+        phramework/
+            
+# Configuration
+## Session handling
+- create config/default.yaml and add:
+```yaml
+application:
+  sessionSavePath: var/cache/session
+```
+```bash
+mkdir var/cache/session 
+chmod -R 777 var/cache/session
+```
 
 ## Phinx Database migrator
 Add alias in ~/.bash_profile

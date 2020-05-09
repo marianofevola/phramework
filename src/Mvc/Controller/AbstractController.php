@@ -3,6 +3,8 @@
 
 namespace Phramework\Mvc\Controller;
 
+use Modules\Login\LoginComponent;
+use Modules\User\UserComponent;
 use Phramework\Injectable\Auth;
 use Phramework\Mvc\ViewModel\AbstractViewModel;
 use Phalcon\Assets\Manager;
@@ -104,12 +106,23 @@ abstract class AbstractController extends Controller
     return false;
   }
 
-
+  /**
+   * Config example:
+   * assets:
+   *  css:
+   *    - bootstrap.min.css
+   */
   private function setAssets()
   {
     $config = $this->getConfig();
 
     $assets = $config->get("assets");
+
+    if (!$assets)
+    {
+      return;
+    }
+
     if ($assets->has("css"))
     {
       $this->addCssCollection($assets->get("css")->getValues());
@@ -206,6 +219,22 @@ abstract class AbstractController extends Controller
     );
 
     return $this->response->redirect($location, true);
+  }
+
+  /**
+   * @return LoginComponent
+   */
+  protected function getLoginComponent()
+  {
+    return $this->getDI()->get("loginComponent");
+  }
+
+  /**
+   * @return UserComponent
+   */
+  protected function getUserComponent()
+  {
+    return $this->getDI()->get("userComponent");
   }
 
 }
