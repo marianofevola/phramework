@@ -40,5 +40,6 @@
   "require-dev": {
     "marianofevola/assertify": "dev-master",
     "phalcon/ide-stubs": "^4.0"
-  }
+  },
+  "minimum-stability": "dev"
 }
