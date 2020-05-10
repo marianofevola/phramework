@@ -5,15 +5,11 @@ namespace Phramework\DI;
 
 use Modules\Login\LoginComponent;
 use Phalcon\Assets\Manager;
-use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Escaper;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Model\Manager as ModelsManager;
-use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Security;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Session\Adapter\Stream as Stream;
 

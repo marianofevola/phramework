@@ -5,6 +5,7 @@ namespace Phramework\Mvc\Controller;
 
 use Modules\Login\LoginComponent;
 use Modules\User\UserComponent;
+use Phramework\Exception\ConfigException;
 use Phramework\Injectable\Auth;
 use Phramework\Mvc\ViewModel\AbstractViewModel;
 use Phalcon\Assets\Manager;
@@ -211,11 +212,17 @@ abstract class AbstractController extends Controller
       ->get("config")
       ->get("application");
 
+    $domain = $config->get("domain");
+    if (!$domain)
+    {
+      throw (new ConfigException())->addCustomData(["application.domain"]);
+    }
+
     $location = sprintf(
       "%s://%s.%s",
       $_SERVER["REQUEST_SCHEME"],
       $subDomain,
-      $config->get("domain")
+      $domain
     );
 
     return $this->response->redirect($location, true);
