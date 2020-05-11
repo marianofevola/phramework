@@ -31,6 +31,7 @@ frontend/
             View/
                 Layout/
                     FrontendLayout.html
+                Partials/
         Modules/
             Login/
                 Controllers/
@@ -39,16 +40,17 @@ vendor/
     marianofevola/
         phramework/
 ```
+## View
+To use common partials use:
+```php
+$this->view->partialCommon();
+```
 # Configuration
 ## Session handling
-- create config/default.yaml and add:
+- create config/default.yaml and add your session folder, example:
 ```yaml
 application:
   sessionSavePath: var/cache/session
-```
-```bash
-mkdir var/cache/session 
-chmod -R 777 var/cache/session
 ```
 
 ## Phinx Database migrator

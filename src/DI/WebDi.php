@@ -9,9 +9,9 @@ use Phalcon\Escaper;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\View;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Session\Adapter\Stream as Stream;
+use Phramework\Mvc\View\PhrameworkView;
 
 
 class WebDi extends AbstractDi
@@ -53,16 +53,15 @@ class WebDi extends AbstractDi
       }
     );
 
-    $this->setShared(
+    $this->set(
       'view',
-      function ()
-      {
-        $view = new View();
-
+      function () {
+        $view = new PhrameworkView();
+        $view->setViewsDir(APP_ROOT . '/src/Modules/'. APP_NAME .'/Views/');
         return $view;
       }
     );
-
+    
     $this
       ->setShared(
         'assets',
@@ -86,6 +85,15 @@ class WebDi extends AbstractDi
       );
 
     $savePath = ROOT . $config->get("application")->get("sessionSavePath");
+    if (true !== is_dir($savePath))
+    {
+      mkdir(
+        $savePath,
+        0777,
+        true
+      );
+    }
+
     $sessionAdapter = new Stream(
       [
         'savePath' => $savePath

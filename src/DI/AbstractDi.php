@@ -11,6 +11,7 @@ use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Security;
 use Phalcon\Url;
+use Phramework\Mvc\View\PhrameworkView;
 
 /**
  * APP_ROOT is defined in index.php

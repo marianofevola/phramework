@@ -74,13 +74,6 @@ abstract class AbstractModule
       $this->getDefaultDispatcherNamespace()
     );
 
-    // Set views
-    $di->set('view', function () {
-      $view = new View();
-      $view->setViewsDir(APP_ROOT . '/src/Modules/'. APP_NAME .'/Views/');
-      return $view;
-    });
-
     // Add module specific configuration
     $this->setModuleConfig($di);
   }
