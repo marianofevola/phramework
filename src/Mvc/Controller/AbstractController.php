@@ -217,7 +217,6 @@ abstract class AbstractController extends Controller
     {
       throw (new ConfigException())->addCustomData(["application.domain"]);
     }
-
     $location = sprintf(
       "%s://%s.%s",
       $_SERVER["REQUEST_SCHEME"],
