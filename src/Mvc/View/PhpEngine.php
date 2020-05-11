@@ -3,10 +3,11 @@
 
 namespace Phramework\Mvc\View;
 
+use \Phalcon\Mvc\View\Engine\Php;
 /**
- * Type-hintings only
+ * Type-hints only
  *
  * Class PhpEngine
  * @property \Phalcon\Assets\Manager $assets
  */
-class PhpEngine extends \Phalcon\Mvc\View\Engine\Php {}
+class PhpEngine extends Php {}
