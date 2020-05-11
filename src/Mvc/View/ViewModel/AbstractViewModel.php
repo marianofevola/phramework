@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Phramework\Mvc\ViewModel;
+namespace Phramework\Mvc\View\ViewModel;
 
 use phpDocumentor\Reflection\DocBlock\Description;
 
@@ -19,6 +19,7 @@ class AbstractViewModel
 
 	/** @var string */
 	private $layout;
+	
 	/** @var string */
 	private $layoutDir;
 

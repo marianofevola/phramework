@@ -7,7 +7,7 @@ use Modules\Login\LoginComponent;
 use Modules\User\UserComponent;
 use Phramework\Exception\ConfigException;
 use Phramework\Injectable\Auth;
-use Phramework\Mvc\ViewModel\AbstractViewModel;
+use Phramework\Mvc\View\ViewModel\AbstractViewModel;
 use Phalcon\Assets\Manager;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Mvc\Controller;
@@ -21,6 +21,7 @@ use Phalcon\Mvc\View;
  * @package Framework\Mvc\Controller
  *
  * @property Auth auth
+ * @property Manager $assets
  */
 abstract class AbstractController extends Controller
 {
@@ -48,14 +49,9 @@ abstract class AbstractController extends Controller
     $assetsManager = $this->assets;
     $jsCollection = $assetsManager->collection("js");
 
-    $jsCollection->addJs('js/jquery-3.2.1.slim.min.js');
-    $jsCollection->addJs('js/jquery-slim.min.js');
-    $jsCollection->addJs('js/popper.min.js');
-    $jsCollection->addJs('js/bootstrap.min.js');
-
     foreach ($jsArray as $js)
     {
-      $jsCollection->addJs(sprintf("css/%s", $js));
+      $jsCollection->addJs(sprintf("js/%s", $js));
     }
   }
 
@@ -168,6 +164,9 @@ abstract class AbstractController extends Controller
 
     // Send Main Views
     $this->view->setVar('viewModel', $view);
+
+    // Set partials folder
+    $this->view->setPartialsDir("../../../Common/View/Partials/");
 
     // Set the Views Phtml
     $template = $view->getTemplateName();
