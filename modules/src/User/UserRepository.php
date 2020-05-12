@@ -52,5 +52,25 @@ class UserRepository
       ->model
       ->getByEmailAndPassword($email, $password);
   }
+
+
+  /**
+   * Saves and returns true if successful
+   *
+   * @param string $name
+   * @param string $email
+   * @param string $password
+   * @return bool
+   */
+  public function saveFromPost($name, $email, $password)
+  {
+    $user = new UserModel([
+      'name'       => $name,
+      'email'      => $email,
+      'password'   => $password
+    ]);
+
+    return $user->save();
+  }
 }
 

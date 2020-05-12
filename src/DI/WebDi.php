@@ -6,6 +6,7 @@ namespace Phramework\DI;
 use Modules\Login\LoginComponent;
 use Phalcon\Assets\Manager;
 use Phalcon\Escaper;
+use Phalcon\Filter;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
@@ -79,6 +80,17 @@ class WebDi extends AbstractDi
         function ()
         {
           $escaper = new Escaper();
+
+          return $escaper;
+        }
+      );
+
+    $this
+      ->setShared(
+        'filter',
+        function ()
+        {
+          $escaper = new Filter();
 
           return $escaper;
         }

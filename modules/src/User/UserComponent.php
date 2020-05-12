@@ -50,4 +50,17 @@ class UserComponent
     return $this->getRepository()->getUser($email, $password);
 	}
 
+  /**
+   * Saves and returns true if successful
+   *
+   * @param string $name
+   * @param string $email
+   * @param string $password
+   * @return bool
+   */
+  public function saveFromPost($name, $email, $password)
+  {
+    return $this->getRepository()->saveFromPost($name, $email, $password);
+	}
+
 }
