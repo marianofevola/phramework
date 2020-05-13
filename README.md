@@ -71,6 +71,10 @@ Rollback Migration
 phinx rollback --dry-run
 phinx rollback -e dev
 ```
+Rollback all migrations
+```bash
+phinx rollback -e dev -t 0
+```
 Seeding https://book.cakephp.org/phinx/0/en/seeding.html
 Create seeder:
 ```bash
