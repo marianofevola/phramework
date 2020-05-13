@@ -69,13 +69,15 @@ abstract class AbstractDi extends DI
     ));
 
     // Set shared components
-    $this->set(
-      'userComponent',
-      function ()
-      {
-        return new UserComponent();
-      }
-    );
+    /**
+     * Extend shared phramework components in your app and set them like this:
+     *
+     *  $this->set(
+     *    'myUserComponent',
+     *      function () {
+     *         return new UserComponent();
+     *       });
+     */
   }
 
   /**
