@@ -4,9 +4,9 @@
 namespace Phramework\Modules\Login;
 
 use Carbon\Carbon;
-use Modules\Login\Model\FailedLoginModel;
-use Modules\Login\Model\RememberTokenModel;
-use Modules\Login\Model\SuccessLoginModel;
+use Phramework\Modules\Login\Model\FailedLoginModel;
+use Phramework\Modules\Login\Model\RememberTokenModel;
+use Phramework\Modules\Login\Model\SuccessLoginModel;
 
 class LoginRepository
 {

@@ -4,9 +4,9 @@
 namespace Phramework\Injectable;
 
 use Carbon\Carbon;
-use Modules\Login\LoginComponent;
-use Modules\User\Model\UserModel;
-use Modules\User\UserComponent;
+use Phramework\Modules\Login\LoginComponent;
+use Phramework\Modules\User\Model\UserModel;
+use Phramework\Modules\User\UserComponent;
 
 /**
  * Manages Authentication/Identity

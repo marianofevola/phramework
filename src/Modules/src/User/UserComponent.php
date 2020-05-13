@@ -3,7 +3,7 @@
 
 namespace Phramework\Modules\User;
 
-use Modules\User\Model\UserModel;
+use Phramework\Modules\User\Model\UserModel;
 
 class UserComponent
 {

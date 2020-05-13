@@ -3,8 +3,8 @@
 
 namespace Phramework\Mvc\Controller;
 
-use Modules\Login\LoginComponent;
-use Modules\User\UserComponent;
+use Phramework\Modules\Login\LoginComponent;
+use Phramework\Modules\User\UserComponent;
 use Phramework\Exception\ConfigException;
 use Phramework\Injectable\Auth;
 use Phramework\Mvc\View\ViewModel\AbstractViewModel;

@@ -3,7 +3,7 @@
 
 namespace Phramework\DI;
 
-use Modules\User\UserComponent;
+use Phramework\Modules\User\UserComponent;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\DI;

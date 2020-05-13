@@ -3,7 +3,7 @@
 
 namespace Phramework\DI;
 
-use Modules\Login\LoginComponent;
+use Phramework\Modules\Login\LoginComponent;
 use Phalcon\Assets\Manager;
 use Phalcon\Escaper;
 use Phalcon\Filter;
