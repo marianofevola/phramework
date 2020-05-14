@@ -15,7 +15,6 @@ class PhrameworkView extends View
    */
   public function partialCommon($name)
   {
-    $appRoot = SRC_PATH;
     return $this
       ->partial(
         sprintf(
