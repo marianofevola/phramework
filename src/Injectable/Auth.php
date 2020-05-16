@@ -287,7 +287,7 @@ class Auth extends AbstractInjectable
       throw new Exception('Session was broken. Try to re-login');
     }
 
-    $user = Users::findFirstById($identity['id']);
+    $user = UserModel::findFirstById($identity['id']);
     if ($user == false)
     {
       throw new Exception('The user does not exist');

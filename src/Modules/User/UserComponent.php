@@ -13,7 +13,7 @@ class UserComponent
 	/**
 	 * @return UserRepository
 	 */
-	public function getRepository()
+	protected function getRepository()
 	{
 		if (!isset($this->userRepository))
 		{
