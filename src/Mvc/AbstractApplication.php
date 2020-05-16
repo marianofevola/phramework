@@ -34,5 +34,35 @@ abstract class AbstractApplication extends Application
     // Register providers
     $authProvider = new AuthProvider();
     $authProvider->register($this->di);
+
+    if ($config->get("auth"))
+    {
+      $this
+        ->handleWwwAuth(
+          $config->get("auth")->get('username'),
+          $config->get("auth")->get('password')
+          );
+    }
+  }
+
+  /**
+   * @param $username
+   * @param $password
+   */
+  private function handleWwwAuth($username, $password)
+  {
+    if (
+      !isset($_SERVER["PHP_AUTH_USER"])
+    ||
+      (
+        $_SERVER["PHP_AUTH_USER"] != $username
+        || $_SERVER['PHP_AUTH_PW'] != $password
+      )
+    )
+    {
+      header('WWW-Authenticate: Basic realm="My Realm"');
+      header('HTTP/1.0 401 Unauthorized');
+      exit;
+    }
   }
 }
