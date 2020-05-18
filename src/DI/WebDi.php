@@ -3,6 +3,7 @@
 
 namespace Phramework\DI;
 
+use Phramework\Exception\ConfigException;
 use Phramework\Modules\Login\LoginComponent;
 use Phalcon\Assets\Manager;
 use Phalcon\Escaper;
@@ -95,6 +96,14 @@ class WebDi extends AbstractDi
           return $escaper;
         }
       );
+
+    if (
+      !$config->get("application")
+      || !$config->get("application")->get("sessionSavePath")
+    )
+    {
+      throw (new ConfigException())->addCustomData(["application" => "sessionSavePath"]);
+    }
 
     $savePath = ROOT . $config->get("application")->get("sessionSavePath");
     if (true !== is_dir($savePath))

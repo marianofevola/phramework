@@ -155,6 +155,18 @@ abstract class AbstractController extends Controller
    */
   public function setView(AbstractViewModel $view)
   {
+
+    // Set breadcrumbs
+    $config = $this->getDI()->get("config");
+    if (
+      $config->get("breadcrumbs")
+      && $config->get("breadcrumbs")->get("isEnabled")
+      && $config->get("breadcrumbs")->get("isEnabled") == true
+    )
+    {
+      $view->setBreadcrumbsByUri($this->request->getURI());
+    }
+
     // Set the Main Layout
     $this->view->setLayout($view->getLayout());
 
@@ -170,23 +182,12 @@ abstract class AbstractController extends Controller
 
     // Set the Views Phtml
     $template = $view->getTemplateName();
-    $layoutsDir = "../../../Common/View/Layout/";
-    $layoutName = sprintf("%sLayout", APP_NAMESPACE);
-
-    $layoutPath = sprintf(
-      "%s/Common/View/Layout/%s.phtml",
-      SRC_PATH,
-      $layoutName
-    );
-    if (
-      $template
-      && file_exists($layoutPath)
-    )
+    if ($template)
     {
       // Do not render anything after the ViewModel template
       $this->view->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
-      $this->view->setLayoutsDir($layoutsDir);
-      $this->view->setTemplateBefore($layoutName);
+      $this->view->setLayoutsDir("../../../Common/View/Layout/");
+      $this->view->setTemplateBefore(sprintf("%sLayout", APP_NAMESPACE));
     }
 
     return $this;

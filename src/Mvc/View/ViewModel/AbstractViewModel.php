@@ -3,144 +3,194 @@
 
 namespace Phramework\Mvc\View\ViewModel;
 
+use Phalcon\Html\Breadcrumbs;
 use phpDocumentor\Reflection\DocBlock\Description;
+use Phramework\Exception\ConfigException;
 
 
 class AbstractViewModel
 {
 
-	const LAYOUT_DEFAULT = 'Default';
+  const LAYOUT_DEFAULT = 'Default';
 
-	/** @var string */
-	protected $title;
+  /** @var string */
+  protected $title;
 
-	/** @var Description */
-	protected $_description;
+  /** @var Description */
+  protected $_description;
 
-	/** @var string */
-	private $layout;
-	
-	/** @var string */
-	private $layoutDir;
+  /** @var string */
+  private $layout;
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		if (isset($this->title))
-		{
-			return $this->title;
-		}
+  /** @var string */
+  private $layoutDir;
 
-		return "";
-	}
+  /** @var Breadcrumbs  */
+  private $breadcrumbs;
 
-	/**
-	 * @param string $title
-	 *
-	 * @return string
-	 */
-	public function setTitle($title)
-	{
-		$this->title = $title;
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    if (isset($this->title))
+    {
+      return $this->title;
+    }
 
-		return $this;
-	}
+    return "";
+  }
 
-	/**
-	 * Get Description Tag
-	 *
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		if (isset($this->_description))
-		{
-			return $this->_description;
-		}
+  /**
+   * @param string $title
+   *
+   * @return string
+   */
+  public function setTitle($title)
+  {
+    $this->title = $title;
 
-		return "";
-	}
+    return $this;
+  }
 
-	/**
-	 * Set Description Tag
-	 *
-	 * @param $description
-	 *
-	 * @return string
-	 */
-	public function setDescription($description)
-	{
-		$this->_description = $description;
+  /**
+   * Get Description Tag
+   *
+   * @return string
+   */
+  public function getDescription()
+  {
+    if (isset($this->_description))
+    {
+      return $this->_description;
+    }
 
-		return $this;
-	}
+    return "";
+  }
 
-	/**
-	 * Return the required Template file (without .phtml)
-	 *
-	 * @return null
-	 */
-	public function getTemplateName()
-	{
-		$splitClass = explode('\\', get_called_class());
+  /**
+   * Set Description Tag
+   *
+   * @param $description
+   *
+   * @return string
+   */
+  public function setDescription($description)
+  {
+    $this->_description = $description;
 
-		return str_replace('ViewModel', '', end($splitClass));
-	}
+    return $this;
+  }
 
-	/**
-	 * Return the required Layout
-	 *
-	 * @return string
-	 */
-	public function getLayout()
-	{
-		if (isset($this->layout))
-		{
-			return $this->layout;
-		}
+  /**
+   * Return the required Template file (without .phtml)
+   *
+   * @return null
+   */
+  public function getTemplateName()
+  {
+    $splitClass = explode('\\', get_called_class());
 
-		return self::LAYOUT_DEFAULT;
-	}
+    return str_replace('ViewModel', '', end($splitClass));
+  }
 
-	/**
-	 * Get the layouts directory
-	 *
-	 * @return string
-	 */
-	public function getLayoutDir()
-	{
-		if (isset($this->layoutDir))
-		{
-			return $this->layoutDir;
-		}
+  /**
+   * Return the required Layout
+   *
+   * @return string
+   */
+  public function getLayout()
+  {
+    if (isset($this->layout))
+    {
+      return $this->layout;
+    }
 
-		return SRC_PATH . '/Common/Layouts';
-	}
+    return self::LAYOUT_DEFAULT;
+  }
 
-	/**
-	 * Set the layout directory
-	 *
-	 * @param string $layoutDir
-	 *
-	 * @return static
-	 */
-	public function setLayoutDir($layoutDir)
-	{
-		$this->layoutDir = $layoutDir;
+  /**
+   * Get the layouts directory
+   *
+   * @return string
+   */
+  public function getLayoutDir()
+  {
+    if (isset($this->layoutDir))
+    {
+      return $this->layoutDir;
+    }
 
-		return $this;
-	}
+    return SRC_PATH . '/Common/Layouts';
+  }
 
-	/**
-	 * Set the layout name
-	 *
-	 * @param $layout
-	 */
-	public function setLayout($layout)
-	{
-		$this->layout = $layout;
-	}
+  /**
+   * Set the layout directory
+   *
+   * @param string $layoutDir
+   *
+   * @return static
+   */
+  public function setLayoutDir($layoutDir)
+  {
+    $this->layoutDir = $layoutDir;
 
+    return $this;
+  }
+
+  /**
+   * Set the layout name
+   *
+   * @param $layout
+   */
+  public function setLayout($layout)
+  {
+    $this->layout = $layout;
+  }
+
+  /**
+   * @return Breadcrumbs
+   */
+  public function getBreadcrumbs()
+  {
+    return $this->breadcrumbs;
+  }
+
+  /**
+   * @param $uri
+   * @return AbstractViewModel
+   */
+  public function setBreadcrumbsByUri($uri)
+  {
+    if (!$this->breadcrumbs)
+    {
+      $this->breadcrumbs = new Breadcrumbs();
+    }
+    // /profile/change-password
+    $explodedUri = explode("/", $uri);
+    foreach ($explodedUri as $link)
+    {
+      if (empty($link))
+      {
+        $this->breadcrumbs->add("Home", "/");
+        continue;
+      }
+
+      $label = ucwords(str_replace("-", " ", $link));
+
+      $this->breadcrumbs->add($label, sprintf("/%s", $link));
+    }
+
+
+    return $this;
+  }
+
+  /**
+   * @return int
+   */
+  public function hasBreadCrumbs()
+  {
+    // Only Home itself is not a valid breadcrumb
+    return count($this->breadcrumbs->toArray()) > 1;
+  }
 }

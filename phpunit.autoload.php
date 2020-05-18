@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 
 // /backend paths
 define('ROOT', sprintf("%s/", __DIR__));
+define('APP_ROOT', sprintf("%s/phramework/", __DIR__));
 
 /**
  * On other environment the ENV is set from nginx
