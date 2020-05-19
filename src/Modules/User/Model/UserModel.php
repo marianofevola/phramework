@@ -72,4 +72,13 @@ class UserModel extends AbstractModel
   {
     return md5($this->email . $this->password . $userAgent);
   }
+
+  /**
+   * Override as you need
+   * @return array
+   */
+  public function toUserArray()
+  {
+    return $this->toArray(["id", "name", "email"]);
+  }
 }

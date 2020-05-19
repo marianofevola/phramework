@@ -5,6 +5,7 @@ namespace Phramework\Injectable;
 
 use Carbon\Carbon;
 use Phramework\Modules\Login\LoginComponent;
+use Phramework\Modules\Login\Model\RememberTokenModel;
 use Phramework\Modules\User\Model\UserModel;
 use Phramework\Modules\User\UserComponent;
 
@@ -84,11 +85,7 @@ class Auth extends AbstractInjectable
       $this->createRememberEnvironment($user);
     }
 
-    $this->session->set('auth-identity', [
-      'id' => $user->id,
-      'name' => $user->name,
-      "email" => $user->email
-    ]);
+    $this->session->set("user", $user->toUserArray());
   }
 
   /**
@@ -184,11 +181,7 @@ class Auth extends AbstractInjectable
     // Register identity
     $this
       ->session
-      ->set('auth-identity', [
-        'id' => $user->id,
-        'name' => $user->name,
-        'email' => $user->email,
-      ]);
+      ->set("user", $user->toUserArray());
 
     // Register the successful login
     $this
@@ -203,13 +196,13 @@ class Auth extends AbstractInjectable
   }
 
   /**
-   * Returns the current identity
+   * Returns the current identity as array
    *
    * @return array|null
    */
   public function getIdentity()
   {
-    return $this->session->get('auth-identity');
+    return $this->session->get("user");
   }
 
   /**
@@ -219,7 +212,7 @@ class Auth extends AbstractInjectable
    */
   public function getName()
   {
-    $identity = $this->session->get('auth-identity');
+    $identity = $this->session->get("user");
     return $identity['name'];
   }
 
@@ -245,52 +238,28 @@ class Auth extends AbstractInjectable
       $this->cookies->get('RMT')->delete();
     }
 
-    $this->session->remove('auth-identity');
-  }
-
-  /**
-   * Auths the user by his/her id
-   *
-   * @param int $id
-   *
-   * @throws Exception
-   */
-  public function authUserById($id)
-  {
-    $user = Users::findFirstById($id);
-    if ($user == false)
-    {
-      throw new Exception('The user does not exist');
-    }
-
-    $this->checkUserFlags($user);
-
-    $this->session->set('auth-identity', [
-      'id' => $user->id,
-      'name' => $user->name,
-      'profile' => $user->profile->name,
-    ]);
+    $this->session->remove("user");
   }
 
   /**
    * Get the entity related to user in the active identity
    *
-   * @return Users
-   * @throws Exception
+   * @return UserModel
+   * @throws \Exception
    */
   public function getUser()
   {
-    $identity = $this->session->get('auth-identity');
+    $identity = $this->session->get("user");
 
     if (!isset($identity['id']))
     {
-      throw new Exception('Session was broken. Try to re-login');
+      throw new \Exception('Session was broken. Try to re-login');
     }
 
     $user = UserModel::findFirstById($identity['id']);
     if ($user == false)
     {
-      throw new Exception('The user does not exist');
+      throw new \Exception('The user does not exist');
     }
 
     return $user;
@@ -305,7 +274,7 @@ class Auth extends AbstractInjectable
    */
   public function findFirstByToken($token)
   {
-    $userToken = RememberTokens::findFirst([
+    $userToken = RememberTokenModel::findFirst([
       'conditions' => 'token = :token:',
       'bind' => [
         'token' => $token,
@@ -320,9 +289,9 @@ class Auth extends AbstractInjectable
    *
    * @param int $userId
    */
-  public function deleteToken(int $userId): void
+  public function deleteToken($userId): void
   {
-    $user = RememberTokens::find([
+    $user = RememberTokenModel::find([
       'conditions' => 'usersId = :userId:',
       'bind' => [
         'userId' => $userId,
