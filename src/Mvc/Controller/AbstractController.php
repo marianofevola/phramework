@@ -182,12 +182,23 @@ abstract class AbstractController extends Controller
 
     // Set the Views Phtml
     $template = $view->getTemplateName();
-    if ($template)
+    $layoutsDir = "../../../Common/View/Layout/";
+    $layoutName = sprintf("%sLayout", APP_NAMESPACE);
+
+    $layoutPath = sprintf(
+      "%s/Common/View/Layout/%s.phtml",
+      SRC_PATH,
+      $layoutName
+    );
+    if (
+      $template
+      && file_exists($layoutPath)
+    )
     {
       // Do not render anything after the ViewModel template
       $this->view->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
-      $this->view->setLayoutsDir("../../../Common/View/Layout/");
-      $this->view->setTemplateBefore(sprintf("%sLayout", APP_NAMESPACE));
+      $this->view->setLayoutsDir($layoutsDir);
+      $this->view->setTemplateBefore($layoutName);
     }
 
     return $this;
