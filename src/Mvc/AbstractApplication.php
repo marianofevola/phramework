@@ -3,6 +3,7 @@
 
 namespace Phramework\Mvc;
 
+use Phramework\Provider\AclProvider;
 use Phramework\Provider\AuthProvider;
 use Phalcon\Config;
 use Phalcon\Mvc\Application;
@@ -35,13 +36,16 @@ abstract class AbstractApplication extends Application
     $authProvider = new AuthProvider();
     $authProvider->register($this->di);
 
+    $aclProvider = new AclProvider();
+    $aclProvider->register($this->di);
+
     if ($config->get("auth"))
     {
       $this
         ->handleWwwAuth(
           $config->get("auth")->get('username'),
           $config->get("auth")->get('password')
-          );
+        );
     }
   }
 
@@ -53,7 +57,7 @@ abstract class AbstractApplication extends Application
   {
     if (
       !isset($_SERVER["PHP_AUTH_USER"])
-    ||
+      ||
       (
         $_SERVER["PHP_AUTH_USER"] != $username
         || $_SERVER['PHP_AUTH_PW'] != $password

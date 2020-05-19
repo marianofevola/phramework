@@ -3,6 +3,7 @@
 
 namespace Phramework\Mvc\Controller;
 
+use Phramework\Injectable\Acl;
 use Phramework\Modules\Login\LoginComponent;
 use Phramework\Modules\User\UserComponent;
 use Phramework\Exception\ConfigException;
@@ -22,6 +23,7 @@ use Phalcon\Mvc\View;
  *
  * @property Auth auth
  * @property Manager $assets
+ * @property Acl $acl
  */
 abstract class AbstractController extends Controller
 {
@@ -68,10 +70,37 @@ abstract class AbstractController extends Controller
 
   /**
    * @param Dispatcher $dispatcher
-   *
+   * @return \Phalcon\Http\ResponseInterface|void
    */
   public function beforeExecuteRoute(Dispatcher $dispatcher)
   {
+    if (!$this->acl->isEnabled())
+    {
+      return;
+    }
+
+    $identity = $this->auth->getIdentity();
+    if (!is_array($identity))
+    {
+      // no user, redirect to www
+      return $this
+        ->redirectToSubDomain("www");
+    }
+
+    $isAllowed = $this
+      ->acl
+      ->isAllowed(
+        $identity["typeEnum"]->getValue(),
+        $dispatcher->getControllerName(),
+        $dispatcher->getActionName()
+      );
+
+    if (!$isAllowed)
+    {
+      return $this
+        ->response
+        ->redirect("/");
+    }
   }
 
   /**
