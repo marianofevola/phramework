@@ -14,6 +14,7 @@ use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
+use Phramework\Mvc\View\ViewModel\IPhrameworkViweModel;
 
 /**
  * view hierarchical: @link https://docs.phalcon.io/3.4/en/views
@@ -71,6 +72,7 @@ abstract class AbstractController extends Controller
   /**
    * @param Dispatcher $dispatcher
    * @return \Phalcon\Http\ResponseInterface|void
+   * @throws \Phramework\Exception\Exception
    */
   public function beforeExecuteRoute(Dispatcher $dispatcher)
   {
@@ -182,7 +184,7 @@ abstract class AbstractController extends Controller
    *
    * @return static
    */
-  public function setView(AbstractViewModel $view)
+  public function setView(IPhrameworkViweModel $view)
   {
 
     // Set breadcrumbs

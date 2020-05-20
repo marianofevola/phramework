@@ -5,10 +5,9 @@ namespace Phramework\Mvc\View\ViewModel;
 
 use Phalcon\Html\Breadcrumbs;
 use phpDocumentor\Reflection\DocBlock\Description;
-use Phramework\Exception\ConfigException;
 
 
-class AbstractViewModel
+class AbstractViewModel implements IPhrameworkViweModel
 {
 
   const LAYOUT_DEFAULT = 'Default';
