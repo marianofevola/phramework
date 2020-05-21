@@ -65,10 +65,14 @@ class UserRepository
    */
   public function saveFromPost($name, $email, $password)
   {
+    $utcTime = (Carbon::now())->setTimezone("UTC");
+
     $user = new UserModel([
       'name'       => $name,
       'email'      => $email,
-      'password'   => $password
+      'password'   => $password,
+      "created" => $utcTime->toDateTimeString(),
+      "updated" => $utcTime->toDateTimeString()
     ]);
     $user->save();
 
