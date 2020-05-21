@@ -3,24 +3,25 @@
 
 namespace Phramework\Modules\User;
 
+use Carbon\Carbon;
 use Phramework\Modules\User\Model\UserModel;
 
 class UserRepository
 {
-	/** @var UserModel */
-	protected $model;
+  /** @var UserModel */
+  protected $model;
 
-	/** @var  UserComponent */
-	protected $userComponent;
+  /** @var  UserComponent */
+  protected $userComponent;
 
-	/**
-	 * @param UserComponent $userComponent
-	 */
-	public function __construct(UserComponent $userComponent)
-	{
-		$this->userComponent = $userComponent;
-		$this->model = new UserModel();
-	}
+  /**
+   * @param UserComponent $userComponent
+   */
+  public function __construct(UserComponent $userComponent)
+  {
+    $this->userComponent = $userComponent;
+    $this->model = new UserModel();
+  }
 
   /**
    * @param $email
@@ -30,7 +31,7 @@ class UserRepository
   public function getByEmail($email)
   {
     return $this->model->findFirstByEmail($email);
-	}
+  }
 
   /**
    * @param $id
@@ -39,7 +40,7 @@ class UserRepository
   public function getById($id)
   {
     return $this->model->findFirstById($id);
-	}
+  }
 
   /**
    * @param $email
@@ -72,6 +73,25 @@ class UserRepository
     $user->save();
 
     return $user;
+  }
+
+  /**
+   * @param UserModel $user
+   * @param array $fields
+   * @return UserModel|bool
+   */
+  public function updateUser($user, array $fields =[])
+  {
+    $utcTime = (Carbon::now())->setTimezone("UTC");
+    $fields = array_merge(
+      $fields,
+      [
+        "updated" => $utcTime->toDateTimeString()
+      ]
+    );
+
+    $user->assign($fields);
+    return $user->save();
   }
 }
 

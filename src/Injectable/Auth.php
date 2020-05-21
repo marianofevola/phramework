@@ -85,7 +85,7 @@ class Auth extends AbstractInjectable
       $this->createRememberEnvironment($user);
     }
 
-    $this->session->set("user", $user->toUserArray());
+    $this->setIdentity($user->toUserArray());
   }
 
   /**
@@ -179,9 +179,7 @@ class Auth extends AbstractInjectable
     }
 
     // Register identity
-    $this
-      ->session
-      ->set("user", $user->toUserArray());
+    $this->setIdentity($user->toUserArray());
 
     // Register the successful login
     $this
@@ -303,4 +301,16 @@ class Auth extends AbstractInjectable
       $user->delete();
     }
   }
+
+  /**
+   * @param array $userArray
+   * @return Auth
+   */
+  public function setIdentity($userArray)
+  {
+    $this->session->set("user", $userArray);
+
+    return $this;
+  }
+
 }

@@ -30,6 +30,12 @@ class UserModel extends AbstractModel
   /** @var string */
   public $password;
 
+  /** @var string */
+  public $created;
+
+  /** @var string */
+  public $updated;
+
   /**
    * @param $memberId
    * @return UserModel|null
