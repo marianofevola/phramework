@@ -44,7 +44,7 @@ class Auth extends AbstractInjectable
     // Check if the user exist
     $user = $this
       ->getUserComponent()
-      ->getByEmail($email);
+      ->getVerifiedByEmail($email);
 
     if (!$user)
     {

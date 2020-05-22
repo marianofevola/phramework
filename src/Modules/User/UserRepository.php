@@ -97,5 +97,15 @@ class UserRepository
     $user->assign($fields);
     return $user->save();
   }
+
+  /**
+   * @param $email
+   *
+   * @return bool|UserModel
+   */
+  public function getVerifiedByEmail($email)
+  {
+    return $this->model->getByEmailAndVerified($email);
+  }
 }
 

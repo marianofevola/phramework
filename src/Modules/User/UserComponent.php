@@ -74,4 +74,13 @@ class UserComponent extends PhrameworkComponent
     return $this->getRepository()->updateUser($user, $fields);
   }
 
+  /**
+   * @param $email
+   * @return bool|UserModel
+   */
+  public function getVerifiedByEmail($email)
+  {
+    return $this->getRepository()->getVerifiedByEmail($email);
+  }
+
 }

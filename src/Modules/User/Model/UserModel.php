@@ -87,4 +87,20 @@ class UserModel extends AbstractModel
   {
     return $this->toArray(["id", "name", "email"]);
   }
+
+  /**
+   * @param $email
+   * @return UserModel|Model
+   */
+  public function getByEmailAndVerified($email)
+  {
+    $user = self::findFirst([
+      'conditions' => 'email=:email: and verified is not null',
+      'bind' => [
+        "email" => $email
+      ],
+    ]);
+
+    return $user;
+  }
 }
