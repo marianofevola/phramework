@@ -3,9 +3,10 @@
 
 namespace Phramework\Modules\User;
 
+use Phramework\Modules\PhrameworkComponent;
 use Phramework\Modules\User\Model\UserModel;
 
-class UserComponent
+class UserComponent extends PhrameworkComponent
 {
   /** @var UserRepository */
   private $userRepository;

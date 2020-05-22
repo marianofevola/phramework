@@ -132,7 +132,7 @@ class WebDi extends AbstractDi
       'loginComponent',
       function ()
       {
-        return new LoginComponent();
+        return new LoginComponent($this);
       }
     );
 

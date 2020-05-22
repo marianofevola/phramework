@@ -3,7 +3,9 @@
 
 namespace Phramework\Modules\Login;
 
-class LoginComponent
+use Phramework\Modules\PhrameworkComponent;
+
+class LoginComponent extends PhrameworkComponent
 {
 
 	/** @var LoginRepository */
