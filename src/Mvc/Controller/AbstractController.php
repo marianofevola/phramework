@@ -189,6 +189,7 @@ abstract class AbstractController extends Controller
 
     // Set breadcrumbs
     $config = $this->getDI()->get("config");
+    $view->setConfig($config);
     if (
       $config->get("breadcrumbs")
       && $config->get("breadcrumbs")->get("isEnabled")

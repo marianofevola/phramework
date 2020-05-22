@@ -3,14 +3,18 @@
 
 namespace Phramework\Mvc\View\ViewModel;
 
+use Phalcon\Config;
 use Phalcon\Html\Breadcrumbs;
 use phpDocumentor\Reflection\DocBlock\Description;
 
 
 class AbstractViewModel implements IPhrameworkViweModel
 {
-
+  /** @var string  */
   const LAYOUT_DEFAULT = 'Default';
+
+  /** @var Config */
+  private $config;
 
   /** @var string */
   protected $title;
@@ -26,6 +30,24 @@ class AbstractViewModel implements IPhrameworkViweModel
 
   /** @var Breadcrumbs  */
   private $breadcrumbs;
+
+  /**
+   * @param Config $config
+   * @return $this
+   */
+  public function setConfig(Config $config)
+  {
+    $this->config = $config;
+    return $this;
+  }
+
+  /**
+   * @return Config
+   */
+  public function getConfig()
+  {
+    return $this->config;
+  }
 
   /**
    * @return string

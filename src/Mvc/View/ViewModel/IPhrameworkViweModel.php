@@ -3,8 +3,20 @@
 
 namespace Phramework\Mvc\View\ViewModel;
 
+use Phalcon\Config;
+
 interface IPhrameworkViweModel
 {
+  /**
+   * @param Config $config
+   * @return $this
+   */
+  public function setConfig(Config $config);
+
+  /**
+   * @return Config
+   */
+  public function getConfig();
 
   /**
    * @return string
@@ -33,6 +45,5 @@ interface IPhrameworkViweModel
    * @return string
    */
   public function setDescription($description);
-
 
 }
