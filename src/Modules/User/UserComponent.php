@@ -78,9 +78,9 @@ class UserComponent extends PhrameworkComponent
    * @param $email
    * @return bool|UserModel
    */
-  public function getVerifiedByEmail($email)
+  public function getVerifiedAndActivatedByEmail($email)
   {
-    return $this->getRepository()->getVerifiedByEmail($email);
+    return $this->getRepository()->getVerifiedandActivatedByEmail($email);
   }
 
 }

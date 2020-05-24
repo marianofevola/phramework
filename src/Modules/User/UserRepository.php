@@ -103,9 +103,9 @@ class UserRepository
    *
    * @return bool|UserModel
    */
-  public function getVerifiedByEmail($email)
+  public function getVerifiedandActivatedByEmail($email)
   {
-    return $this->model->getByEmailAndVerified($email);
+    return $this->model->getVerifiedandActivatedByEmail($email);
   }
 }
 

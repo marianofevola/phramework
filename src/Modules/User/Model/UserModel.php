@@ -92,10 +92,10 @@ class UserModel extends AbstractModel
    * @param $email
    * @return UserModel|Model
    */
-  public function getByEmailAndVerified($email)
+  public function getVerifiedandActivatedByEmail($email)
   {
     $user = self::findFirst([
-      'conditions' => 'email=:email: and verified is not null',
+      'conditions' => 'email=:email: and verified is not null and activated is not null',
       'bind' => [
         "email" => $email
       ],

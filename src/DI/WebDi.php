@@ -36,6 +36,11 @@ class WebDi extends AbstractDi
       $toArray = $config->get("routes")->toArray();
       foreach ($toArray as $path => $route)
       {
+        if (isset($route["types"]))
+        {
+          // conflicts with parameters
+          unset($route["types"]);
+        }
         if ($path == "not-found")
         {
           // Add 404
