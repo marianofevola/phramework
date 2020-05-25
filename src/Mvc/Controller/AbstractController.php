@@ -222,6 +222,12 @@ abstract class AbstractController extends Controller
       SRC_PATH,
       $layoutName
     );
+
+    if (!file_exists($layoutPath))
+    {
+      throw new \Exception(sprintf("Create a layout in %s", $layoutPath));
+    }
+
     if (
       $template
       && file_exists($layoutPath)
