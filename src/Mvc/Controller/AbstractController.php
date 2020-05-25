@@ -228,10 +228,8 @@ abstract class AbstractController extends Controller
       throw new \Exception(sprintf("Create a layout in %s", $layoutPath));
     }
 
-    if (
-      $template
-      && file_exists($layoutPath)
-    )
+    if ($template)
+
     {
       // Do not render anything after the ViewModel template
       $this->view->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
