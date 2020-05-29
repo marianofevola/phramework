@@ -47,24 +47,48 @@ abstract class AbstractController extends Controller
     $this->setAssets();
   }
 
-  private function setJsCollections($jsArray)
+  private function setJsCollections($jsArray, $root = null)
   {
     $assetsManager = $this->assets;
     $jsCollection = $assetsManager->collection("js");
 
     foreach ($jsArray as $js)
     {
+      if (!is_null($root))
+      {
+        $jsCollection
+          ->addJs(
+            sprintf(
+              "%s/js/%s",
+              $root,
+              $js
+            )
+          );
+        continue;
+      }
       $jsCollection->addJs(sprintf("js/%s", $js));
     }
   }
 
-  private function addCssCollection($cssArray)
+  private function addCssCollection($cssArray, $root = null)
   {
     /** @var Manager $assetsManager */
     $assetsManager = $this->assets;
     $cssCollection = $assetsManager->collection("css");
     foreach ($cssArray as $css)
     {
+      if (!is_null($root))
+      {
+        $cssCollection
+          ->addCss(
+            sprintf(
+              "%s/css/%s",
+              $root,
+              $css
+            )
+          );
+        continue;
+      }
       $cssCollection->addCss(sprintf("css/%s", $css));
     }
   }
@@ -151,13 +175,27 @@ abstract class AbstractController extends Controller
       return;
     }
 
+    $root = $assets->get("root");
+
     if ($assets->has("css"))
     {
-      $this->addCssCollection($assets->get("css")->getValues());
+      $this
+        ->addCssCollection(
+          $assets
+            ->get("css")
+            ->getValues(),
+          $root
+        );
     }
     if ($assets->has("js"))
     {
-      $this->setJsCollections($assets->get("js"));
+      $this
+        ->setJsCollections(
+          $assets
+            ->get("js")
+            ->getValues(),
+          $root
+        );
     }
   }
 
