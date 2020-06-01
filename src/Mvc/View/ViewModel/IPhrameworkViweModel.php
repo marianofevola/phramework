@@ -8,6 +8,12 @@ use Phalcon\Config;
 interface IPhrameworkViweModel
 {
   /**
+   * Used to initiate the view model, config is available here
+   * @return void
+   */
+  public function initiate();
+
+  /**
    * @param Config $config
    * @return $this
    */

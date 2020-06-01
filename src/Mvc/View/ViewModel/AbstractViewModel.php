@@ -32,6 +32,12 @@ class AbstractViewModel implements IPhrameworkViweModel
   private $breadcrumbs;
 
   /**
+   * Used to initiate the view model, config is available here
+   * @return void
+   */
+  public function initiate() {}
+
+  /**
    * @param Config $config
    * @return $this
    */

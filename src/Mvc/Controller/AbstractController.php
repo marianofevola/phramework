@@ -244,6 +244,8 @@ abstract class AbstractController extends Controller
     $layoutDir = $view->getLayoutDir();
     $this->view->setLayoutsDir($layoutDir);
 
+    $view->initiate();
+
     // Send Main Views
     $this->view->setVar('viewModel', $view);
 
