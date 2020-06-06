@@ -204,7 +204,12 @@ class AbstractViewModel implements IPhrameworkViweModel
       }
 
       $label = ucwords(str_replace("-", " ", $link));
-
+      $outputArray = [];
+      preg_match('/(.*)\?/', $label, $outputArray);
+      if (isset($outputArray[1]))
+      {
+        $label = $outputArray[1];
+      }
       $this->breadcrumbs->add($label, sprintf("/%s", $link));
     }
 
