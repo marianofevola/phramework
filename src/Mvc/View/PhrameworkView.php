@@ -18,7 +18,7 @@ class PhrameworkView extends View
     return $this
       ->partial(
         sprintf(
-          "../../../../Common/View/Partials/%s",
+          "../../../../Common/View/partials/%s",
           $name
         )
       );

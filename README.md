@@ -31,7 +31,7 @@ frontend/
             View/
                 Layout/
                     FrontendLayout.html
-                Partials/
+                partials/
         Modules/
             Login/
                 Controllers/

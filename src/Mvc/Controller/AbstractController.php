@@ -250,7 +250,7 @@ abstract class AbstractController extends Controller
     $this->view->setVar('viewModel', $view);
 
     // Set partials folder
-    $this->view->setPartialsDir("Partials/");
+    $this->view->setPartialsDir("partials/");
 
     // Set the Views Phtml
     $template = $view->getTemplateName();
