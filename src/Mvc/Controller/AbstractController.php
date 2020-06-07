@@ -258,7 +258,7 @@ abstract class AbstractController extends Controller
     $layoutName = sprintf("%slayout", lcfirst(APP_NAMESPACE));
 
     $layoutPath = sprintf(
-      "%s/Common/View/;ayout/%s.phtml",
+      "%s/Common/View/layout/%s.phtml",
       SRC_PATH,
       $layoutName
     );
