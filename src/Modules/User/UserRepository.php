@@ -107,17 +107,5 @@ class UserRepository
   {
     return $this->model->getVerifiedandActivatedByEmail($email);
   }
-
-  /**
-   * @return UserModel[]
-   */
-  public function getAll()
-  {
-    return UserModel::find(
-      [
-        "conditions" => "verified is not null and activated is not null"
-      ]
-    );
-  }
 }
 
