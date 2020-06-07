@@ -14,7 +14,7 @@ class UserComponent extends PhrameworkComponent
   /**
    * @return UserRepository
    */
-  protected function getRepository()
+  public function getRepository()
   {
     if (!isset($this->userRepository))
     {
