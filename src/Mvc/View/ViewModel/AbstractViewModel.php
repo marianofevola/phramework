@@ -5,6 +5,8 @@ namespace Phramework\Mvc\View\ViewModel;
 
 use Phalcon\Config;
 use Phalcon\Html\Breadcrumbs;
+use Phalcon\Paginator\Adapter\NativeArray;
+use Phalcon\Paginator\RepositoryInterface;
 use phpDocumentor\Reflection\DocBlock\Description;
 
 
@@ -30,6 +32,9 @@ class AbstractViewModel implements IPhrameworkViweModel
 
   /** @var Breadcrumbs  */
   private $breadcrumbs;
+
+  /** @var RepositoryInterface[]  */
+  private $paginators = [];
 
   /**
    * Used to initiate the view model, config is available here
@@ -224,5 +229,132 @@ class AbstractViewModel implements IPhrameworkViweModel
   {
     // Only Home itself is not a valid breadcrumb
     return count($this->breadcrumbs->toArray()) > 1;
+  }
+
+  /**
+   * @param string $name
+   * @param array $items
+   * @param int $currentPage
+   * @param int $limit
+   * @return $this
+   */
+  public function addPaginator($name, $items, $currentPage = 1, $limit = 10)
+  {
+    $paginator = new NativeArray(
+      [
+        'data'  => $items,
+        'limit' => $limit,
+        'page'  => $currentPage,
+      ]
+    );
+
+    $this->paginators[$name] = $paginator->paginate();
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @return RepositoryInterface
+   * @throws \Exception
+   */
+  public function getPaginator($name)
+  {
+    if (!$this->hasPaginator($name))
+    {
+      throw new \Exception(
+        sprintf(
+          "Paginator %s not created in view %s",
+          $name,
+          __CLASS__
+        )
+      );
+    }
+    return $this->paginators[$name];
+  }
+
+  /**
+   * @param string $name
+   * @return bool
+   */
+  public function hasPaginator($name)
+  {
+    return isset($this->paginators[$name]);
+  }
+
+  /**
+   * @param $name
+   * @return string
+   * @throws \Exception
+   */
+  public function getPaginatorTemplate($name)
+  {
+    $myPaginator = $this
+      ->getPaginator($name);
+
+    // Disable if no need of showing it
+    if ($myPaginator->getTotalItems() <= $myPaginator->getLimit())
+    {
+      return '';
+    }
+    $current = $myPaginator
+      ->getCurrent();
+    $first = $myPaginator
+      ->getFirst();
+    $previous = $myPaginator
+      ->getPrevious();
+    $next = $myPaginator
+      ->getNext();
+    $last = $myPaginator
+      ->getLast();
+
+    $previousDisabled = $current == $first;
+    $nextDisabled = $last == 0 || $current == $last;
+    $hasPrevious = $first != $current;
+    $hasNext = $next != $current && $next != 0;
+    return sprintf(
+      '
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item %s">
+      <a class="page-link" href="/%s?page=%d" tabindex="-1">Previous</a>
+    </li>
+    %s
+    <li class="page-item active">
+      <a class="page-link" href="#">
+        %d
+        <span class="sr-only">(current)</span>
+      </a>
+    </li>
+    %s
+    <li
+      class="page-item %s">
+      <a class="page-link" href="/%s?page=%d">Next</a>
+    </li>
+  </ul>
+</nav>
+      ',
+      $previousDisabled ? "disabled" : "",
+      $name,
+      $previous,
+      $hasPrevious
+        ? sprintf(
+          '<li class="page-item"><a class="page-link" href="/%s?page=%d">%d</a></li>',
+        $name,
+        $previous,
+        $previous
+      ) : '',
+      $current,
+      $hasNext
+        ? sprintf(
+        '<li class="page-item"><a class="page-link" href="/%s?page=%d">%d</a></li>',
+        $name,
+        $next,
+        $next
+      ) : '',
+      $nextDisabled ? "disabled" : "",
+      $name,
+      $next
+    );
   }
 }
