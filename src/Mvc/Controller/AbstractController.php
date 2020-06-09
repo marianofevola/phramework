@@ -254,11 +254,11 @@ abstract class AbstractController extends Controller
 
     // Set the Views Phtml
     $template = $view->getTemplateName();
-    $layoutsDir = "../../../Common/View/Layout/";
-    $layoutName = sprintf("%sLayout", APP_NAMESPACE);
+    $layoutsDir = "../../../Common/View/layout/";
+    $layoutName = sprintf("%sLayout", lcfirst(APP_NAMESPACE));
 
     $layoutPath = sprintf(
-      "%s/Common/View/Layout/%s.phtml",
+      "%s/Common/View/layout/%s.phtml",
       SRC_PATH,
       $layoutName
     );
