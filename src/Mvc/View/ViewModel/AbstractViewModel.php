@@ -238,7 +238,7 @@ class AbstractViewModel implements IPhrameworkViweModel
    * @param int $limit
    * @return $this
    */
-  public function addPaginator($name, $items, $currentPage = 1, $limit = 10)
+  public function addPaginator($name, $items, $currentPage = 1, $limit = 20)
   {
     $paginator = new NativeArray(
       [
