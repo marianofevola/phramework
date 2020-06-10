@@ -4,6 +4,7 @@
 namespace Phramework\Mvc\View\ViewModel;
 
 use Phalcon\Config;
+use Phalcon\Forms\Form;
 use Phalcon\Html\Breadcrumbs;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\RepositoryInterface;
@@ -35,6 +36,8 @@ class AbstractViewModel implements IPhrameworkViweModel
 
   /** @var RepositoryInterface[]  */
   private $paginators = [];
+
+  private $forms = [];
 
   /**
    * Used to initiate the view model, config is available here
@@ -356,5 +359,45 @@ class AbstractViewModel implements IPhrameworkViweModel
       $name,
       $next
     );
+  }
+
+  /**
+   * @param string $name = formName
+   * @param Form $form
+   * @return ApprovalViewViewModel
+   */
+  public function setForm($name, Form $form)
+  {
+    $this->forms[$name] = $form;
+
+    return $this;
+  }
+
+  /**
+   * @param $name
+   * @return Form
+   * @throws \Exception
+   */
+  public function getForm($name)
+  {
+    if (!$this->hasForm($name))
+    {
+      throw new \Exception(
+        sprintf(
+          "Form %s not created in view %s",
+          $name,
+          __CLASS__
+        )
+      );
+    }
+    return $this->forms[$name];  }
+
+  /**
+   * @param string $name
+   * @return bool
+   */
+  public function hasForm($name)
+  {
+    return isset($this->forms[$name]);
   }
 }
