@@ -35,6 +35,9 @@ class UserModel extends AbstractModel
 
   /** @var string */
   public $updated;
+  
+  /** @var string */
+  public $disabled;
 
   /**
    * @param $memberId
@@ -95,7 +98,7 @@ class UserModel extends AbstractModel
   public function getVerifiedandActivatedByEmail($email)
   {
     $user = self::findFirst([
-      'conditions' => 'email=:email: and verified is not null and activated is not null',
+      'conditions' => 'email=:email: and verified is not null and activated is not null and disabled is null',
       'bind' => [
         "email" => $email
       ],

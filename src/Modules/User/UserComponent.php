@@ -3,6 +3,7 @@
 
 namespace Phramework\Modules\User;
 
+use Carbon\Carbon;
 use Phramework\Modules\PhrameworkComponent;
 use Phramework\Modules\User\Model\UserModel;
 
@@ -81,6 +82,21 @@ class UserComponent extends PhrameworkComponent
   public function getVerifiedAndActivatedByEmail($email)
   {
     return $this->getRepository()->getVerifiedandActivatedByEmail($email);
+  }
+
+  /**
+   * @paramint  $userId
+   * @return bool
+   */
+  public function disableUser($userId)
+  {
+    $user = $this->getById($userId);
+
+    $user->disabled = (new Carbon())->toDateTimeString();
+
+    $user->save();
+
+    return $user;
   }
 
 }
