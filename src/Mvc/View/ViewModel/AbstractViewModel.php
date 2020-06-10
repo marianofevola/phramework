@@ -362,19 +362,25 @@ class AbstractViewModel implements IPhrameworkViweModel
   }
 
   /**
-   * @param string $name = formName
-   * @param Form $form
+   * @param Form $form = MyClassForm (class name must finish with 'Form')
    * @return ApprovalViewViewModel
    */
-  public function setForm($name, Form $form)
+  public function setForm(Form $form)
   {
-    $this->forms[$name] = $form;
+    $matchOutput = [];
+    preg_match(
+      '/Form\\\(.*)Form/',
+      get_class($form),
+      $matchOutput
+    );;
+    $formName = lcfirst($matchOutput[1]);
+    $this->forms[$formName] = $form;
 
     return $this;
   }
 
   /**
-   * @param $name
+   * @param $name = myClass when form class name is MyClassForm
    * @return Form
    * @throws \Exception
    */
