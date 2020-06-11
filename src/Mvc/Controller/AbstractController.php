@@ -224,6 +224,7 @@ abstract class AbstractController extends Controller
    */
   public function setView(IPhrameworkViweModel $view)
   {
+    $view->setDi($this->getDi());
 
     // Set breadcrumbs
     $config = $this->getDI()->get("config");

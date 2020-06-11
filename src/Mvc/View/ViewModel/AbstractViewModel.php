@@ -4,8 +4,10 @@
 namespace Phramework\Mvc\View\ViewModel;
 
 use Phalcon\Config;
+use Phalcon\Di;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Breadcrumbs;
+use Phalcon\Http\Request\Exception;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\RepositoryInterface;
 use phpDocumentor\Reflection\DocBlock\Description;
@@ -15,6 +17,9 @@ class AbstractViewModel implements IPhrameworkViweModel
 {
   /** @var string  */
   const LAYOUT_DEFAULT = 'Default';
+
+  /** @var Di */
+  private $di;
 
   /** @var Config */
   private $config;
@@ -44,6 +49,24 @@ class AbstractViewModel implements IPhrameworkViweModel
    * @return void
    */
   public function initiate() {}
+
+  /**
+   * @return \Phalcon\Di
+   */
+  public function getDi()
+  {
+    return $this->di;
+  }
+
+  /**
+   * @param Di $di
+   * @return $this|IPhrameworkViweModel
+   */
+  public function setDi(Di $di)
+  {
+    $this->di = $di;
+    return $this;
+  }
 
   /**
    * @param Config $config
@@ -315,12 +338,41 @@ class AbstractViewModel implements IPhrameworkViweModel
     $nextDisabled = $last == 0 || $current == $last;
     $hasPrevious = $first != $current;
     $hasNext = $next != $current && $next != 0;
-    return sprintf(
+
+    /** @var Exception $request */
+    $request = $this
+      ->getDi()
+      ->get("request");
+
+    /**
+     * Query parameters already expected is:
+     * 1. _url
+     * 2. page
+     */
+    $queries = $request->getQuery();
+    unset($queries["_url"]);
+    if (isset($queries["page"]))
+    {
+      unset($queries["page"]);
+    }
+    $hasGetQueries = count($queries) > 0;
+    if ($hasGetQueries)
+    {
+      // concatene page to them
+      $queries = array_map(function ($value, $query){
+        return sprintf("%s=%s", $query, $value);
+      },$queries, array_keys($queries));
+      $queries = implode("&", $queries);
+      // add page to them
+      $queries = sprintf("?%s&page=", $queries);
+    }
+
+    $test = sprintf(
       '
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item %s">
-      <a class="page-link" href="/%s?page=%d" tabindex="-1">Previous</a>
+      <a class="page-link" href="/%s%s%d" tabindex="-1">Previous</a>
     </li>
     %s
     <li class="page-item active">
@@ -332,33 +384,39 @@ class AbstractViewModel implements IPhrameworkViweModel
     %s
     <li
       class="page-item %s">
-      <a class="page-link" href="/%s?page=%d">Next</a>
+      <a class="page-link" href="/%s%s%d">Next</a>
     </li>
   </ul>
 </nav>
       ',
       $previousDisabled ? "disabled" : "",
       $name,
+      $hasGetQueries ? $queries : "?page=",
       $previous,
       $hasPrevious
         ? sprintf(
-          '<li class="page-item"><a class="page-link" href="/%s?page=%d">%d</a></li>',
+          '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
         $name,
+        $hasGetQueries ? $queries : "?page=",
         $previous,
         $previous
       ) : '',
       $current,
       $hasNext
         ? sprintf(
-        '<li class="page-item"><a class="page-link" href="/%s?page=%d">%d</a></li>',
+        '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
         $name,
+        $hasGetQueries ? $queries : "?page=",
         $next,
         $next
       ) : '',
       $nextDisabled ? "disabled" : "",
       $name,
+      $hasGetQueries ? $queries : "?page=",
       $next
     );
+
+    return $test;
   }
 
   /**

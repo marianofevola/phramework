@@ -4,6 +4,7 @@
 namespace Phramework\Mvc\View\ViewModel;
 
 use Phalcon\Config;
+use Phalcon\Di;
 
 interface IPhrameworkViweModel
 {
@@ -12,6 +13,17 @@ interface IPhrameworkViweModel
    * @return void
    */
   public function initiate();
+
+  /**
+   * @param Di$di
+   * @return $this
+   */
+  public function setDi(Di $di);
+
+  /**
+   * @return Di
+   */
+  public function getDi();
 
   /**
    * @param Config $config
