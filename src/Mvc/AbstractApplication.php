@@ -39,7 +39,7 @@ abstract class AbstractApplication extends Application
     $aclProvider = new AclProvider();
     $aclProvider->register($this->di);
 
-    if ($config->get("auth"))
+    if ($config->get("auth") && php_sapi_name() != "cli")
     {
       $this
         ->handleWwwAuth(
