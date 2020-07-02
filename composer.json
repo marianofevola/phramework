@@ -30,7 +30,7 @@
     }
   },
   "require": {
-    "marc-mabe/php-enum": "v1.2.0",
+    "marc-mabe/php-enum": "^3.0",
     "nesbot/carbon": "1.*",
     "marianofevola/simply-email": "dev-master",
     "robmorgan/phinx": "^0.12.1",
