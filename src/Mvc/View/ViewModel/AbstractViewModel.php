@@ -421,7 +421,8 @@ class AbstractViewModel implements IPhrameworkViweModel
 
   /**
    * @param Form $form = MyClassForm (class name must finish with 'Form')
-   * @return ApprovalViewViewModel
+   * @return AbstractViewModel
+   * @throws \Exception
    */
   public function setForm(Form $form)
   {
@@ -432,6 +433,11 @@ class AbstractViewModel implements IPhrameworkViweModel
       $matchOutput
     );;
     $formName = lcfirst($matchOutput[1]);
+    if (!$formName)
+    {
+      $errorMessage = "The form you are adding does not follow the pattern \Form\MyClassForm";
+      throw new \Exception($errorMessage);
+    }
     $this->forms[$formName] = $form;
 
     return $this;

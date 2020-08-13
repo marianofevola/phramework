@@ -45,6 +45,7 @@ To use common partials use:
 ```php
 $this->view->partialCommon();
 ```
+NB. In order for this to work, a "partials" folder needs to be created in the Module's View folder
 # Configuration
 ## Session handling
 - create config/default.yaml and add your session folder, example:
