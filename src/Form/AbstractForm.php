@@ -11,11 +11,12 @@ abstract class AbstractForm extends Form
 {
   /**
    * Adds csrf token for validation
+   * @param string $inputName
    */
-  public function addCsrf()
+  public function addCsrf($inputName = "csrf")
   {
     // CSRF
-    $csrf = new Hidden('csrf');
+    $csrf = new Hidden($inputName);
     $csrf->addValidator(new Callback([
       "message" => "CSRF validation failed",
       "callback" => $this->security->checkToken()
