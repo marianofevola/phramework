@@ -310,10 +310,11 @@ class AbstractViewModel implements IPhrameworkViweModel
 
   /**
    * @param $name
+   * @param bool $nameOverride = what will show in the url
    * @return string
    * @throws \Exception
    */
-  public function getPaginatorTemplate($name)
+  public function getPaginatorTemplate($name, $nameOverride = false)
   {
     $myPaginator = $this
       ->getPaginator($name);
@@ -390,13 +391,13 @@ class AbstractViewModel implements IPhrameworkViweModel
 </nav>
       ',
       $previousDisabled ? "disabled" : "",
-      $name,
+      $nameOverride ? $nameOverride : $name,
       $hasGetQueries ? $queries : "?page=",
       $previous,
       $hasPrevious
         ? sprintf(
-          '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
-        $name,
+        '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
+        $nameOverride ? $nameOverride : $name,
         $hasGetQueries ? $queries : "?page=",
         $previous,
         $previous
@@ -405,13 +406,13 @@ class AbstractViewModel implements IPhrameworkViweModel
       $hasNext
         ? sprintf(
         '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
-        $name,
+        $nameOverride ? $nameOverride : $name,
         $hasGetQueries ? $queries : "?page=",
         $next,
         $next
       ) : '',
       $nextDisabled ? "disabled" : "",
-      $name,
+      $nameOverride ? $nameOverride : $name,
       $hasGetQueries ? $queries : "?page=",
       $next
     );
