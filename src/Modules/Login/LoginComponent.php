@@ -65,4 +65,11 @@ class LoginComponent extends PhrameworkComponent
     return $this->getRepository()->getRememberToken($userOd, $token);
   }
 
+  /**
+   * @param (int) $userId
+   */
+  public function deleteRememberToken($userId)
+  {
+    $this->getRepository()->deleteRememberToken($userId);
+  }
 }

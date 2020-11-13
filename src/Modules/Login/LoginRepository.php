@@ -89,6 +89,15 @@ class LoginRepository
     return (new RememberTokenModel())->getByUserIdAndToken($userId, $token);
   }
 
+  /**
+   * @param (int) $userId
+   */
+  public function deleteRememberToken($userId)
+  {
+    $tokens = RememberTokenModel::find(["userId" => $userId]);
+    $tokens->delete();
+  }
+
 
 }
 
