@@ -338,7 +338,9 @@ class AbstractViewModel implements IPhrameworkViweModel
     $previousDisabled = $current == $first;
     $nextDisabled = $last == 0 || $current == $last;
     $hasPrevious = $first != $current;
+    $has2Previous = $hasPrevious && $first < ($current - 1);
     $hasNext = $next != $current && $next != 0;
+    $has2Next = $hasNext && $next != $last;
 
     /** @var Exception $request */
     $request = $this
@@ -373,8 +375,12 @@ class AbstractViewModel implements IPhrameworkViweModel
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item %s">
-      <a class="page-link" href="/%s%s%d" tabindex="-1">Previous</a>
+      <a class="page-link" href="/%s%s%d" tabindex="-1">First</a>
     </li>
+    <li class="page-item %s">
+      <a class="page-link" href="/%s%s%d"><</a>
+    </li>
+    %s
     %s
     <li class="page-item active">
       <a class="page-link" href="#">
@@ -383,9 +389,14 @@ class AbstractViewModel implements IPhrameworkViweModel
       </a>
     </li>
     %s
+    %s
     <li
       class="page-item %s">
-      <a class="page-link" href="/%s%s%d">Next</a>
+      <a class="page-link" href="/%s%s%d">></a>
+    </li>
+    <li
+      class="page-item %s">
+      <a class="page-link" href="/%s%s%d">Last</a>
     </li>
   </ul>
 </nav>
@@ -393,7 +404,20 @@ class AbstractViewModel implements IPhrameworkViweModel
       $previousDisabled ? "disabled" : "",
       $nameOverride ? $nameOverride : $name,
       $hasGetQueries ? $queries : "?page=",
+      $myPaginator->getFirst(),
+      $previousDisabled ? "disabled" : "",
+      $nameOverride ? $nameOverride : $name,
+      $hasGetQueries ? $queries : "?page=",
       $previous,
+      $has2Previous ?
+        sprintf(
+          '<li class="page-item"><a class="page-link" href="/%s%s%d">%s</a></li>',
+          $nameOverride ? $nameOverride : $name,
+          $hasGetQueries ? $queries : "?page=",
+          $myPaginator->getCurrent() - 2,
+          $myPaginator->getCurrent() - 2
+        ) : "",
+
       $hasPrevious
         ? sprintf(
         '<li class="page-item"><a class="page-link" href="/%s%s%d">%d</a></li>',
@@ -411,10 +435,22 @@ class AbstractViewModel implements IPhrameworkViweModel
         $next,
         $next
       ) : '',
+      $has2Next ?
+        sprintf(
+          '<li class="page-item"><a class="page-link" href="/%s%s%d">%s</a></li>',
+          $nameOverride ? $nameOverride : $name,
+          $hasGetQueries ? $queries : "?page=",
+          $myPaginator->getCurrent() + 2,
+          $myPaginator->getCurrent() + 2
+        ) : "",
       $nextDisabled ? "disabled" : "",
       $nameOverride ? $nameOverride : $name,
       $hasGetQueries ? $queries : "?page=",
-      $next
+      $next,
+      $nextDisabled ? "disabled" : "",
+      $nameOverride ? $nameOverride : $name,
+      $hasGetQueries ? $queries : "?page=",
+      $myPaginator->getLast()
     );
 
     return $test;
